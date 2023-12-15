@@ -37,8 +37,6 @@ const login = async (req, res) => {
     const token = jwt.sign(
       {
         id: user._id,
-        email: user.email,
-        username: user.username,
       },
       process.env.SECRET_KEY,
       {
@@ -47,9 +45,21 @@ const login = async (req, res) => {
     );
     res.status(200).json({ message: "login successful", token });
   } catch (err) {
-    res.status(500).json({ status: "failed", message: "something went wrong." });
+    res
+      .status(500)
+      .json({ status: "failed", message: "something went wrong." });
   }
 };
-const getProfile = () => {};
+
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    res.status(200).json({ message: "success", details: user });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ status: "failed", message: "something went wrong." });
+  }
+};
 
 module.exports = { signup, login, getProfile };
