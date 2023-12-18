@@ -27,16 +27,22 @@ const BlogSchema = new Schema({
   username: String,
   upVote: {
     type: Number,
-    default: 0
+    default: 0,
   },
   downVote: {
     type: Number,
-    default: 0
+    default: 0,
   },
   votedBy: [
     {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
     },
   ],
 });

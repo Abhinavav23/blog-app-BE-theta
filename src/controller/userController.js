@@ -62,4 +62,18 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, getProfile };
+const getMyBlogs = async(req, res) => {
+  try {
+    const blogs = await User.findById(req.userId)
+    .select({blogs: 1})
+    .populate({path: "blogs", model: "blogs"});
+
+    res.status(200).json({ message: "success", records: blogs });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ status: "failed", message: "something went wrong." });
+  }
+};
+
+module.exports = { signup, login, getProfile, getMyBlogs };
